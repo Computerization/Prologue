@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+
+# WeChat DevTools
+.miniprogram/
+
+# Build & cache
+dist/
+.cache/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Env & secrets
+.env
+.env.local
+.env.*.local
+
+# Cloud functions dependencies
+cloudfunctions/*/node_modules/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Miniprogram npm
+miniprogram_npm/
+
+# Text files
+*.txt

@@ -1,0 +1,99 @@
+.filter-tabs {
+  display: flex;
+  white-space: nowrap;
+  padding: 16rpx 0 24rpx;
+}
+
+.filter-tab {
+  display: inline-block;
+  padding: 12rpx 24rpx;
+  border-radius: 32rpx;
+  font-size: 24rpx;
+  color: #666;
+  background: #fff;
+  margin-right: 12rpx;
+  flex-shrink: 0;
+}
+
+.filter-tab.active {
+  background: linear-gradient(135deg, #FF8C42, #FF6B6B);
+  color: #fff;
+}
+
+.app-card {
+  margin-bottom: 20rpx;
+  overflow: hidden;
+}
+
+.app-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.app-card-pet-name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #FF8C42;
+}
+
+.app-card-body {
+  background: #FFF8F0;
+  border-radius: 16rpx;
+  padding: 20rpx;
+}
+
+.app-info-row {
+  display: flex;
+  margin-bottom: 12rpx;
+}
+
+.app-info-row:last-child {
+  margin-bottom: 0;
+}
+
+.app-info-label {
+  width: 140rpx;
+  font-size: 24rpx;
+  color: #999;
+  flex-shrink: 0;
+}
+
+.app-info-value {
+  flex: 1;
+  font-size: 24rpx;
+  color: #333;
+}
+
+.app-card-actions {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 20rpx;
+}
+
+.approve-btn {
+  flex: 1;
+  background: #e8f8ee;
+  color: #2ed573;
+  font-size: 26rpx;
+  padding: 16rpx;
+  border-radius: 12rpx;
+  text-align: center;
+  margin: 0;
+}
+
+.approve-btn::after { border: none; }
+
+.reject-btn {
+  flex: 1;
+  background: #ffe8ea;
+  color: #ff4757;
+  font-size: 26rpx;
+  padding: 16rpx;
+  border-radius: 12rpx;
+  text-align: center;
+  margin: 0;
+}
+
+.reject-btn::after { border: none; }

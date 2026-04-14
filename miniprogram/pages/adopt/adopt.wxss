@@ -1,0 +1,76 @@
+.pet-info-card {
+  display: flex;
+  align-items: center;
+}
+
+.pet-avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+}
+
+.pet-brief {
+  display: flex;
+  flex-direction: column;
+}
+
+.pet-name {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.pet-hint {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 8rpx;
+}
+
+.form-card {
+  margin-top: 20rpx;
+}
+
+.form-item {
+  margin-bottom: 28rpx;
+}
+
+.form-item:last-child {
+  margin-bottom: 0;
+}
+
+.form-label {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 12rpx;
+  display: block;
+}
+
+.required {
+  color: #ff4757;
+}
+
+.form-input {
+  width: 100%;
+  padding: 20rpx 24rpx;
+  background: #FFF8F0;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.form-textarea {
+  width: 100%;
+  padding: 20rpx 24rpx;
+  background: #FFF8F0;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  color: #333;
+  min-height: 160rpx;
+}
+
+.submit-btn {
+  margin-top: 40rpx;
+  margin-bottom: 40rpx;
+}

@@ -1,0 +1,22 @@
+<view class="pet-card" bindtap="onTap">
+  <view class="pet-photo-wrapper">
+    <image class="pet-photo" src="{{pet.photos[0] || '/images/default-pet.png'}}" mode="aspectFill" lazy-load></image>
+    <view class="status-badge" style="background-color: {{statusConfig.bgColor}}; color: {{statusConfig.color}}">
+      {{pet.status}}
+    </view>
+  </view>
+  <view class="pet-info">
+    <view class="pet-name-row">
+      <text class="pet-name">{{pet.name}}</text>
+      <text class="pet-species">{{pet.species}}</text>
+    </view>
+    <view class="pet-details">
+      <text class="pet-detail-item">{{pet.breed}}</text>
+      <text class="pet-detail-divider">·</text>
+      <text class="pet-detail-item">{{pet.gender}}</text>
+      <text class="pet-detail-divider">·</text>
+      <text class="pet-detail-item">{{pet.age}}</text>
+    </view>
+    <view class="pet-desc ellipsis-2" wx:if="{{pet.description}}">{{pet.description}}</view>
+  </view>
+</view>

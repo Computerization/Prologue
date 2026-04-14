@@ -1,0 +1,40 @@
+<view class="container">
+  <view class="pet-info-card card">
+    <image class="pet-avatar" src="{{petPhoto}}" mode="aspectFill"></image>
+    <view class="pet-brief">
+      <text class="pet-name">{{petName}}</text>
+      <text class="pet-hint">填写以下信息申请领养</text>
+    </view>
+  </view>
+
+  <view class="form-card card">
+    <view class="form-item">
+      <text class="form-label">姓名 <text class="required">*</text></text>
+      <input class="form-input" placeholder="请输入您的姓名" value="{{form.name}}" bindinput="onInput" data-field="name" />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">联系电话 <text class="required">*</text></text>
+      <input class="form-input" placeholder="请输入手机号" type="number" maxlength="11" value="{{form.phone}}" bindinput="onInput" data-field="phone" />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">住址 <text class="required">*</text></text>
+      <input class="form-input" placeholder="请输入您的住址" value="{{form.address}}" bindinput="onInput" data-field="address" />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">养宠经验</text>
+      <textarea class="form-textarea" placeholder="请描述您的养宠经验（选填）" value="{{form.experience}}" bindinput="onInput" data-field="experience" maxlength="500" />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">申请理由 <text class="required">*</text></text>
+      <textarea class="form-textarea" placeholder="请说明您为什么想领养这只宠物" value="{{form.reason}}" bindinput="onInput" data-field="reason" maxlength="500" />
+    </view>
+  </view>
+
+  <button class="primary-btn submit-btn" bindtap="submit" loading="{{submitting}}" disabled="{{submitting}}">
+    提交申请
+  </button>
+</view>

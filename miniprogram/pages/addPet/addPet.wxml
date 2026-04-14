@@ -1,0 +1,66 @@
+<view class="container">
+  <view class="form-card card">
+    <view class="form-item">
+      <text class="form-label">名字 <text class="required">*</text></text>
+      <input class="form-input" placeholder="给宠物起个名字" value="{{form.name}}" bindinput="onInput" data-field="name" />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">物种 <text class="required">*</text></text>
+      <view class="species-picker">
+        <view class="species-option {{form.species === '猫' ? 'active' : ''}}" bindtap="pickSpecies" data-value="猫">🐱 猫咪</view>
+        <view class="species-option {{form.species === '狗' ? 'active' : ''}}" bindtap="pickSpecies" data-value="狗">🐶 狗狗</view>
+        <view class="species-option {{form.species === '其他' ? 'active' : ''}}" bindtap="pickSpecies" data-value="其他">🐾 其他</view>
+      </view>
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">品种</text>
+      <input class="form-input" placeholder="如：英短、金毛..." value="{{form.breed}}" bindinput="onInput" data-field="breed" />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">年龄</text>
+      <input class="form-input" placeholder="如：2岁、3个月..." value="{{form.age}}" bindinput="onInput" data-field="age" />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">性别</text>
+      <view class="gender-picker">
+        <view class="gender-option {{form.gender === '公' ? 'active' : ''}}" bindtap="pickGender" data-value="公">♂️ 公</view>
+        <view class="gender-option {{form.gender === '母' ? 'active' : ''}}" bindtap="pickGender" data-value="母">♀️ 母</view>
+        <view class="gender-option {{form.gender === '未知' ? 'active' : ''}}" bindtap="pickGender" data-value="未知">❓ 未知</view>
+      </view>
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">领养状态</text>
+      <picker range="{{statusOptions}}" value="{{statusIndex}}" bindchange="onStatusChange">
+        <view class="form-input picker-value">{{form.status}}</view>
+      </picker>
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">描述</text>
+      <textarea class="form-textarea" placeholder="描述宠物的性格、特点等..." value="{{form.description}}" bindinput="onInput" data-field="description" maxlength="1000" />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">照片</text>
+      <view class="photo-grid">
+        <view class="photo-item" wx:for="{{form.photos}}" wx:key="*this">
+          <image class="photo-preview" src="{{item}}" mode="aspectFill"></image>
+          <view class="photo-delete" bindtap="deletePhoto" data-index="{{index}}">✕</view>
+        </view>
+        <view class="photo-add" bindtap="chooseImage" wx:if="{{form.photos.length < 9}}">
+          <text class="photo-add-icon">+</text>
+          <text class="photo-add-text">添加照片</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <button class="primary-btn submit-btn" bindtap="submit" loading="{{submitting}}" disabled="{{submitting}}">
+    {{isEdit ? '保存修改' : '添加宠物'}}
+  </button>
+</view>

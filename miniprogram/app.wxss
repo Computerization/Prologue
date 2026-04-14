@@ -1,0 +1,99 @@
+@import 'styles/theme.wxss';
+
+page {
+  background-color: #FFF8F0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: #333;
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+
+.container {
+  padding: 24rpx;
+  padding-bottom: 120rpx;
+}
+
+view, text, image, button, input, textarea, form {
+  box-sizing: border-box;
+}
+
+button::after {
+  border: none;
+}
+
+.primary-btn {
+  background: linear-gradient(135deg, #FF8C42, #FF6B6B);
+  color: #fff;
+  border-radius: 48rpx;
+  padding: 24rpx 48rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+  text-align: center;
+  border: none;
+  box-shadow: 0 8rpx 24rpx rgba(255, 140, 66, 0.3);
+}
+
+.primary-btn::after {
+  border: none;
+}
+
+.secondary-btn {
+  background: #fff;
+  color: #FF8C42;
+  border: 2rpx solid #FF8C42;
+  border-radius: 48rpx;
+  padding: 24rpx 48rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+  text-align: center;
+}
+
+.danger-btn {
+  background: #fff;
+  color: #ff4757;
+  border: 2rpx solid #ff4757;
+  border-radius: 48rpx;
+  padding: 24rpx 48rpx;
+  font-size: 32rpx;
+  text-align: center;
+}
+
+.card {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 24rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
+  margin-bottom: 24rpx;
+}
+
+.section-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400rpx;
+}
+
+.empty-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 0;
+}
+
+.empty-container .empty-icon {
+  font-size: 120rpx;
+  margin-bottom: 24rpx;
+}
+
+.empty-container .empty-text {
+  font-size: 28rpx;
+  color: #999;
+}

@@ -1,0 +1,107 @@
+.profile-header {
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-bg {
+  height: 280rpx;
+  background: linear-gradient(135deg, #FF8C42, #FF6B6B);
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -80rpx;
+  position: relative;
+  z-index: 10;
+  padding-bottom: 30rpx;
+}
+
+.avatar {
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 50%;
+  border: 6rpx solid #fff;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.1);
+}
+
+.nickname {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #333;
+  margin-top: 16rpx;
+}
+
+.admin-badge {
+  background: linear-gradient(135deg, #FF8C42, #FF6B6B);
+  padding: 4rpx 20rpx;
+  border-radius: 20rpx;
+  margin-top: 8rpx;
+}
+
+.admin-text {
+  font-size: 22rpx;
+  color: #fff;
+}
+
+.menu-card {
+  margin: 0 24rpx 20rpx;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 28rpx 0;
+}
+
+.menu-icon {
+  font-size: 36rpx;
+  margin-right: 16rpx;
+}
+
+.menu-text {
+  flex: 1;
+  font-size: 30rpx;
+  color: #333;
+}
+
+.menu-arrow {
+  font-size: 32rpx;
+  color: #ccc;
+}
+
+.menu-divider {
+  height: 1rpx;
+  background: #f0f0f0;
+}
+
+.applications-list {
+  margin-top: 10rpx;
+}
+
+.application-item {
+  margin-bottom: 16rpx;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.app-pet-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.app-time {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 8rpx;
+}
+
+.bottom-space {
+  height: 200rpx;
+}

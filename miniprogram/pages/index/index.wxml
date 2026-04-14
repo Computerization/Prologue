@@ -1,0 +1,31 @@
+<view class="container">
+  <view class="header">
+    <view class="search-bar">
+      <view class="search-icon">🔍</view>
+      <input class="search-input" placeholder="搜索宠物名字、品种..." value="{{keyword}}" bindinput="onSearchInput" confirm-type="search" bindconfirm="onSearch" />
+      <view class="search-clear" wx:if="{{keyword}}" bindtap="clearSearch">✕</view>
+    </view>
+  </view>
+
+  <scroll-view class="filter-tabs" scroll-x enable-flex>
+    <view class="filter-tab {{currentFilter === 'all' ? 'active' : ''}}" bindtap="onFilter" data-filter="all">全部</view>
+    <view class="filter-tab {{currentFilter === '猫' ? 'active' : ''}}" bindtap="onFilter" data-filter="猫">🐱 猫咪</view>
+    <view class="filter-tab {{currentFilter === '狗' ? 'active' : ''}}" bindtap="onFilter" data-filter="狗">🐶 狗狗</view>
+    <view class="filter-tab {{currentFilter === '其他' ? 'active' : ''}}" bindtap="onFilter" data-filter="其他">🐾 其他</view>
+    <view class="filter-tab {{currentFilter === '可领养' ? 'active' : ''}}" bindtap="onFilter" data-filter="可领养">💚 可领养</view>
+  </scroll-view>
+
+  <view class="pet-list" wx:if="{{filteredPets.length > 0}}">
+    <pet-card wx:for="{{filteredPets}}" wx:key="_id" pet="{{item}}"></pet-card>
+  </view>
+
+  <empty-state wx:if="{{!loading && filteredPets.length === 0}}" icon="🐾" message="{{emptyMessage}}"></empty-state>
+
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading-text">加载中...</view>
+  </view>
+
+  <view class="fab-btn" wx:if="{{isAdmin}}" bindtap="goAddPet">
+    <text class="fab-icon">+</text>
+  </view>
+</view>

@@ -1,0 +1,3 @@
+<view class="status-tag" style="background-color: {{config.bgColor}}; color: {{config.color}}">
+  {{status}}
+</view>

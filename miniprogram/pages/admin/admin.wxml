@@ -1,0 +1,67 @@
+<view class="container">
+  <view class="admin-header">
+    <text class="admin-title">⚙️ 管理后台</text>
+  </view>
+
+  <view class="stats-row">
+    <view class="stat-card">
+      <text class="stat-num">{{stats.totalPets}}</text>
+      <text class="stat-label">宠物总数</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-num">{{stats.availablePets}}</text>
+      <text class="stat-label">可领养</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-num">{{stats.pendingApps}}</text>
+      <text class="stat-label">待审核</text>
+    </view>
+  </view>
+
+  <view class="section-header">
+    <text class="section-title">🐾 宠物管理</text>
+    <button class="add-btn" bindtap="goAddPet">+ 添加宠物</button>
+  </view>
+
+  <view class="pet-list" wx:if="{{pets.length > 0}}">
+    <view class="admin-pet-item card" wx:for="{{pets}}" wx:key="_id">
+      <view class="admin-pet-info" bindtap="goDetail" data-id="{{item._id}}">
+        <image class="admin-pet-photo" src="{{item.photos[0] || '/images/default-pet.png'}}" mode="aspectFill"></image>
+        <view class="admin-pet-text">
+          <view class="admin-pet-name-row">
+            <text class="admin-pet-name">{{item.name}}</text>
+            <status-tag status="{{item.status}}" type="pet"></status-tag>
+          </view>
+          <text class="admin-pet-breed">{{item.breed}} · {{item.age}}</text>
+        </view>
+      </view>
+      <view class="admin-pet-actions">
+        <view class="action-link" bindtap="goEdit" data-id="{{item._id}}">编辑</view>
+        <view class="action-link danger" bindtap="onDelete" data-id="{{item._id}}" data-name="{{item.name}}">删除</view>
+      </view>
+    </view>
+  </view>
+
+  <empty-state wx:if="{{pets.length === 0 && !loading}}" icon="🐾" message="暂无宠物，点击上方添加"></empty-state>
+
+  <view class="section-header mt-lg">
+    <text class="section-title">📋 待审核申请</text>
+    <view class="view-all" bindtap="goApplications" wx:if="{{pendingApplications.length > 0}}">查看全部 ›</view>
+  </view>
+
+  <view class="applications" wx:if="{{pendingApplications.length > 0}}">
+    <view class="app-item card" wx:for="{{pendingApplications}}" wx:key="_id">
+      <view class="app-top">
+        <text class="app-pet-name">{{item.petName}}</text>
+        <status-tag status="{{item.status}}" type="application"></status-tag>
+      </view>
+      <text class="app-user">{{item.applicantName}} · {{item.phone}}</text>
+      <view class="app-actions">
+        <button class="approve-btn" bindtap="reviewApp" data-id="{{item._id}}" data-petid="{{item.petId}}" data-action="approve">通过</button>
+        <button class="reject-btn" bindtap="reviewApp" data-id="{{item._id}}" data-action="reject">拒绝</button>
+      </view>
+    </view>
+  </view>
+
+  <empty-state wx:if="{{pendingApplications.length === 0 && !loading}}" icon="📋" message="暂无待审核申请"></empty-state>
+</view>

@@ -1,0 +1,86 @@
+.pet-card {
+  display: flex;
+  flex-direction: row;
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 20rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
+  margin-bottom: 20rpx;
+  overflow: hidden;
+}
+
+.pet-photo-wrapper {
+  position: relative;
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 20rpx;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.pet-photo {
+  width: 100%;
+  height: 100%;
+}
+
+.status-badge {
+  position: absolute;
+  top: 12rpx;
+  left: 12rpx;
+  font-size: 20rpx;
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
+  font-weight: 500;
+}
+
+.pet-info {
+  flex: 1;
+  margin-left: 20rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 4rpx 0;
+  overflow: hidden;
+}
+
+.pet-name-row {
+  display: flex;
+  align-items: center;
+}
+
+.pet-name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  margin-right: 12rpx;
+}
+
+.pet-species {
+  font-size: 22rpx;
+  color: #fff;
+  background: linear-gradient(135deg, #FF8C42, #FF6B6B);
+  padding: 2rpx 14rpx;
+  border-radius: 12rpx;
+}
+
+.pet-details {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  color: #888;
+}
+
+.pet-detail-item {
+  color: #888;
+}
+
+.pet-detail-divider {
+  margin: 0 8rpx;
+  color: #ccc;
+}
+
+.pet-desc {
+  font-size: 24rpx;
+  color: #999;
+  line-height: 1.5;
+}

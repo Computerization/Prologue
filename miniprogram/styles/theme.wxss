@@ -1,0 +1,86 @@
+.theme-primary {
+  color: #FF8C42;
+}
+
+.theme-bg {
+  background-color: #FF8C42;
+}
+
+.theme-bg-light {
+  background-color: #FFF8F0;
+}
+
+.theme-gradient {
+  background: linear-gradient(135deg, #FF8C42, #FF6B6B);
+}
+
+.text-primary { color: #FF8C42; }
+.text-secondary { color: #666; }
+.text-muted { color: #999; }
+.text-danger { color: #ff4757; }
+.text-success { color: #2ed573; }
+
+.bg-white { background-color: #fff; }
+.bg-light { background-color: #FFF8F0; }
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.mt-sm { margin-top: 12rpx; }
+.mt-md { margin-top: 24rpx; }
+.mt-lg { margin-top: 36rpx; }
+.mb-sm { margin-bottom: 12rpx; }
+.mb-md { margin-bottom: 24rpx; }
+.mb-lg { margin-bottom: 36rpx; }
+.ml-sm { margin-left: 12rpx; }
+.mr-sm { margin-right: 12rpx; }
+.p-sm { padding: 12rpx; }
+.p-md { padding: 24rpx; }
+.p-lg { padding: 36rpx; }
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ellipsis-2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.radius-sm { border-radius: 12rpx; }
+.radius-md { border-radius: 20rpx; }
+.radius-lg { border-radius: 32rpx; }
+.radius-round { border-radius: 50%; }

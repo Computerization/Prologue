@@ -1,0 +1,59 @@
+<view class="container" wx:if="{{pet}}">
+  <swiper class="photo-swiper" indicator-dots indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#fff" circular autoplay>
+    <swiper-item wx:for="{{pet.photos}}" wx:key="*this">
+      <image class="swiper-image" src="{{item}}" mode="aspectFill" bindtap="previewImage" data-src="{{item}}"></image>
+    </swiper-item>
+    <swiper-item wx:if="{{pet.photos.length === 0}}">
+      <image class="swiper-image" src="/images/default-pet.png" mode="aspectFill"></image>
+    </swiper-item>
+  </swiper>
+
+  <view class="info-card">
+    <view class="name-row">
+      <text class="pet-name">{{pet.name}}</text>
+      <status-tag status="{{pet.status}}" type="pet"></status-tag>
+    </view>
+
+    <view class="tags-row">
+      <view class="info-tag">
+        <text class="tag-icon">🐾</text>
+        <text class="tag-text">{{pet.species}}</text>
+      </view>
+      <view class="info-tag">
+        <text class="tag-icon">🏷️</text>
+        <text class="tag-text">{{pet.breed}}</text>
+      </view>
+      <view class="info-tag">
+        <text class="tag-icon">📅</text>
+        <text class="tag-text">{{pet.age}}</text>
+      </view>
+      <view class="info-tag">
+        <text class="tag-icon">{{pet.gender === '公' ? '♂️' : '♀️'}}</text>
+        <text class="tag-text">{{pet.gender}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="desc-card card">
+    <view class="section-title">📝 关于 {{pet.name}}</view>
+    <text class="desc-text">{{pet.description || '暂无描述'}}</text>
+  </view>
+
+  <view class="bottom-bar">
+    <block wx:if="{{pet.status === '可领养'}}">
+      <button class="primary-btn adopt-btn" bindtap="goAdopt">💕 我想领养 {{pet.name}}</button>
+    </block>
+    <block wx:elif="{{pet.status === '已预定'}}">
+      <button class="disabled-btn" disabled>已预定，暂不可领养</button>
+    </block>
+    <block wx:else>
+      <button class="disabled-btn" disabled>已有主人啦~</button>
+    </block>
+    <block wx:if="{{isAdmin}}">
+      <view class="admin-actions">
+        <button class="secondary-btn action-btn" bindtap="goEdit">编辑</button>
+        <button class="danger-btn action-btn" bindtap="deletePet">删除</button>
+      </view>
+    </block>
+  </view>
+</view>

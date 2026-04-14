@@ -1,0 +1,53 @@
+<view class="container">
+  <scroll-view class="filter-tabs" scroll-x enable-flex>
+    <view class="filter-tab {{currentFilter === 'all' ? 'active' : ''}}" bindtap="onFilter" data-filter="all">全部 ({{totalCount}})</view>
+    <view class="filter-tab {{currentFilter === '待审核' ? 'active' : ''}}" bindtap="onFilter" data-filter="待审核">待审核 ({{pendingCount}})</view>
+    <view class="filter-tab {{currentFilter === '已通过' ? 'active' : ''}}" bindtap="onFilter" data-filter="已通过">已通过</view>
+    <view class="filter-tab {{currentFilter === '已拒绝' ? 'active' : ''}}" bindtap="onFilter" data-filter="已拒绝">已拒绝</view>
+  </scroll-view>
+
+  <view class="app-list" wx:if="{{filteredApps.length > 0}}">
+    <view class="app-card card" wx:for="{{filteredApps}}" wx:key="_id">
+      <view class="app-card-header">
+        <view class="app-card-pet" bindtap="goPetDetail" data-id="{{item.petId}}">
+          <text class="app-card-pet-name">{{item.petName}}</text>
+        </view>
+        <status-tag status="{{item.status}}" type="application"></status-tag>
+      </view>
+
+      <view class="app-card-body">
+        <view class="app-info-row">
+          <text class="app-info-label">申请人</text>
+          <text class="app-info-value">{{item.applicantName}}</text>
+        </view>
+        <view class="app-info-row">
+          <text class="app-info-label">联系电话</text>
+          <text class="app-info-value">{{item.phone}}</text>
+        </view>
+        <view class="app-info-row">
+          <text class="app-info-label">住址</text>
+          <text class="app-info-value">{{item.address}}</text>
+        </view>
+        <view class="app-info-row" wx:if="{{item.experience}}">
+          <text class="app-info-label">养宠经验</text>
+          <text class="app-info-value">{{item.experience}}</text>
+        </view>
+        <view class="app-info-row">
+          <text class="app-info-label">申请理由</text>
+          <text class="app-info-value">{{item.reason}}</text>
+        </view>
+        <view class="app-info-row">
+          <text class="app-info-label">申请时间</text>
+          <text class="app-info-value">{{item.formattedTime}}</text>
+        </view>
+      </view>
+
+      <view class="app-card-actions" wx:if="{{item.status === '待审核' && isAdmin}}">
+        <button class="approve-btn" bindtap="reviewApp" data-id="{{item._id}}" data-petid="{{item.petId}}" data-action="approve">通过</button>
+        <button class="reject-btn" bindtap="reviewApp" data-id="{{item._id}}" data-action="reject">拒绝</button>
+      </view>
+    </view>
+  </view>
+
+  <empty-state wx:if="{{filteredApps.length === 0 && !loading}}" icon="📋" message="暂无申请记录"></empty-state>
+</view>
