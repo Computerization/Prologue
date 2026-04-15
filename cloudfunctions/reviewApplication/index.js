@@ -2,9 +2,11 @@ const cloud = require('wx-server-sdk')
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 const db = cloud.database()
 
+const APP_STATUS_APPROVED = '已通过'
+const PET_STATUS_ADOPTED = '已领养'
+
 exports.main = async (event, context) => {
-  const wxContext = cloud.getWXContext()
-  const openid = wxContext.OPENID
+  const openid = cloud.getWXContext().OPENID
 
   try {
     const userRes = await db.collection('users').where({ _openid: openid }).get()
@@ -21,9 +23,9 @@ exports.main = async (event, context) => {
       }
     })
 
-    if (status === '已通过' && petId) {
+    if (status === APP_STATUS_APPROVED && petId) {
       await db.collection('pets').doc(petId).update({
-        data: { status: '已领养' }
+        data: { status: PET_STATUS_ADOPTED }
       })
     }
 

@@ -2,9 +2,11 @@ const cloud = require('wx-server-sdk')
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 const db = cloud.database()
 
+const DEFAULT_STATUS = '可领养'
+const DEFAULT_GENDER = '未知'
+
 exports.main = async (event, context) => {
-  const wxContext = cloud.getWXContext()
-  const openid = wxContext.OPENID
+  const openid = cloud.getWXContext().OPENID
 
   try {
     const userRes = await db.collection('users').where({ _openid: openid }).get()
@@ -20,9 +22,9 @@ exports.main = async (event, context) => {
         species,
         breed: breed || '',
         age: age || '',
-        gender: gender || '未知',
+        gender: gender || DEFAULT_GENDER,
         description: description || '',
-        status: status || '可领养',
+        status: status || DEFAULT_STATUS,
         photos: photos || [],
         createdAt: db.serverDate()
       }

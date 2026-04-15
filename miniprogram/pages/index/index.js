@@ -1,5 +1,6 @@
 const app = getApp()
-const db = wx.cloud.database()
+const petService = require('../../services/petService')
+const { PetStatus, Species } = require('../../utils/constants')
 
 Page({
   data: {
@@ -9,7 +10,9 @@ Page({
     currentFilter: 'all',
     loading: true,
     isAdmin: false,
-    emptyMessage: '暂无宠物信息'
+    emptyMessage: '暂无宠物信息',
+    species: Species,
+    petStatus: PetStatus
   },
 
   onLoad: function () {
@@ -30,14 +33,10 @@ Page({
 
   loadPets: function () {
     this.setData({ loading: true })
-    db.collection('pets').orderBy('createdAt', 'desc').get().then(res => {
-      this.setData({
-        pets: res.data,
-        loading: false
-      })
+    petService.loadPetList().then(pets => {
+      this.setData({ pets, loading: false })
       this.filterPets()
-    }).catch(err => {
-      console.error('加载宠物列表失败', err)
+    }).catch(() => {
       this.setData({ loading: false })
     })
   },
@@ -57,8 +56,7 @@ Page({
   },
 
   onFilter: function (e) {
-    const filter = e.currentTarget.dataset.filter
-    this.setData({ currentFilter: filter })
+    this.setData({ currentFilter: e.currentTarget.dataset.filter })
     this.filterPets()
   },
 
@@ -67,17 +65,17 @@ Page({
     const keyword = this.data.keyword.trim().toLowerCase()
     const filter = this.data.currentFilter
 
-    if (filter === '可领养') {
-      pets = pets.filter(p => p.status === '可领养')
+    if (filter === PetStatus.AVAILABLE) {
+      pets = pets.filter(pet => pet.status === PetStatus.AVAILABLE)
     } else if (filter !== 'all') {
-      pets = pets.filter(p => p.species === filter)
+      pets = pets.filter(pet => pet.species === filter)
     }
 
     if (keyword) {
-      pets = pets.filter(p =>
-        (p.name && p.name.toLowerCase().includes(keyword)) ||
-        (p.breed && p.breed.toLowerCase().includes(keyword)) ||
-        (p.description && p.description.toLowerCase().includes(keyword))
+      pets = pets.filter(pet =>
+        (pet.name && pet.name.toLowerCase().includes(keyword)) ||
+        (pet.breed && pet.breed.toLowerCase().includes(keyword)) ||
+        (pet.description && pet.description.toLowerCase().includes(keyword))
       )
     }
 

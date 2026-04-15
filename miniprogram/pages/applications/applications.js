@@ -1,6 +1,6 @@
 const app = getApp()
-const db = wx.cloud.database()
-const { formatTime, showLoading, hideLoading, showToast } = require('../../utils/util')
+const applicationService = require('../../services/applicationService')
+const { ApplicationStatus } = require('../../utils/constants')
 
 Page({
   data: {
@@ -10,7 +10,8 @@ Page({
     totalCount: 0,
     pendingCount: 0,
     isAdmin: false,
-    loading: true
+    loading: true,
+    appStatus: ApplicationStatus
   },
 
   onLoad: function () {
@@ -25,30 +26,17 @@ Page({
     this.setData({ loading: true })
     const isAdmin = app.globalData.isAdmin
 
-    let query = {}
-    if (!isAdmin) {
-      query = { _openid: app.globalData.openid }
-    }
-
-    wx.cloud.callFunction({
-      name: isAdmin ? 'getApplications' : 'getMyApplications',
-      data: {},
-      success: res => {
-        const apps = (res.result.data || []).map(item => {
-          item.formattedTime = item.createdAt ? formatTime(new Date(item.createdAt)) : ''
-          return item
-        })
-        this.setData({
-          applications: apps,
-          totalCount: apps.length,
-          pendingCount: apps.filter(a => a.status === '待审核').length,
-          loading: false
-        })
-        this.filterApps()
-      },
-      fail: () => {
-        this.setData({ loading: false })
-      }
+    const loadFn = isAdmin ? applicationService.loadAllApplications : applicationService.loadMyApplications
+    loadFn().then(applications => {
+      this.setData({
+        applications,
+        totalCount: applications.length,
+        pendingCount: applications.filter(application => application.status === ApplicationStatus.PENDING).length,
+        loading: false
+      })
+      this.filterApps()
+    }).catch(() => {
+      this.setData({ loading: false })
     })
   },
 
@@ -59,39 +47,19 @@ Page({
 
   filterApps: function () {
     const { applications, currentFilter } = this.data
-    let filtered = applications
-    if (currentFilter !== 'all') {
-      filtered = applications.filter(a => a.status === currentFilter)
-    }
+    const filtered = currentFilter === 'all'
+      ? applications
+      : applications.filter(application => application.status === currentFilter)
     this.setData({ filteredApps: filtered })
   },
 
   reviewApp: function (e) {
     const { id, petid, action } = e.currentTarget.dataset
-    const status = action === 'approve' ? '已通过' : '已拒绝'
-
-    wx.showModal({
-      title: '确认操作',
-      content: '确定要' + (action === 'approve' ? '通过' : '拒绝') + '这条申请吗？',
-      success: res => {
-        if (res.confirm) {
-          showLoading('处理中')
-          wx.cloud.callFunction({
-            name: 'reviewApplication',
-            data: { applicationId: id, petId: petid, status },
-            success: () => {
-              hideLoading()
-              showToast('操作成功')
-              this.loadApplications()
-            },
-            fail: () => {
-              hideLoading()
-              showToast('操作失败')
-            }
-          })
-        }
-      }
-    })
+    applicationService.confirmReview(action).then(({ status }) => {
+      return applicationService.reviewApplication(id, petid, status)
+    }).then(() => {
+      this.loadApplications()
+    }).catch(() => {})
   },
 
   goPetDetail: function (e) {

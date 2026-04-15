@@ -1,6 +1,8 @@
 const app = getApp()
-const db = wx.cloud.database()
-const { showLoading, hideLoading, showToast } = require('../../utils/util')
+const petService = require('../../services/petService')
+const applicationService = require('../../services/applicationService')
+const { showToast } = require('../../utils/util')
+const { PetStatus, ApplicationStatus, NavigateBackDelay } = require('../../utils/constants')
 
 Page({
   data: {
@@ -17,7 +19,7 @@ Page({
   onLoad: function () {
     if (!app.globalData.isAdmin) {
       showToast('无管理员权限')
-      setTimeout(() => wx.switchTab({ url: '/pages/index/index' }), 1500)
+      setTimeout(() => wx.switchTab({ url: '/pages/index/index' }), NavigateBackDelay)
       return
     }
   },
@@ -35,20 +37,20 @@ Page({
   },
 
   loadPets: function () {
-    db.collection('pets').orderBy('createdAt', 'desc').get().then(res => {
-      const pets = res.data
+    petService.loadPetList().then(pets => {
       this.setData({
         pets,
         'stats.totalPets': pets.length,
-        'stats.availablePets': pets.filter(p => p.status === '可领养').length,
+        'stats.availablePets': pets.filter(pet => pet.status === PetStatus.AVAILABLE).length,
         loading: false
       })
     })
   },
 
   loadPendingApplications: function () {
+    const db = wx.cloud.database()
     db.collection('applications').where({
-      status: '待审核'
+      status: ApplicationStatus.PENDING
     }).orderBy('createdAt', 'desc').get().then(res => {
       this.setData({
         pendingApplications: res.data,
@@ -71,58 +73,20 @@ Page({
 
   onDelete: function (e) {
     const { id, name } = e.currentTarget.dataset
-    wx.showModal({
-      title: '确认删除',
-      content: '确定要删除 ' + name + ' 吗？',
-      confirmColor: '#ff4757',
-      success: res => {
-        if (res.confirm) {
-          showLoading('删除中')
-          wx.cloud.callFunction({
-            name: 'deletePet',
-            data: { id },
-            success: () => {
-              hideLoading()
-              showToast('删除成功')
-              this.loadData()
-            },
-            fail: () => {
-              hideLoading()
-              showToast('删除失败')
-            }
-          })
-        }
-      }
-    })
+    petService.confirmDeletePet(name).then(() => {
+      return petService.deletePet(id)
+    }).then(() => {
+      this.loadData()
+    }).catch(() => {})
   },
 
   reviewApp: function (e) {
     const { id, petid, action } = e.currentTarget.dataset
-    const status = action === 'approve' ? '已通过' : '已拒绝'
-    const tip = action === 'approve' ? '通过' : '拒绝'
-
-    wx.showModal({
-      title: '确认操作',
-      content: '确定要' + tip + '这条申请吗？',
-      success: res => {
-        if (res.confirm) {
-          showLoading('处理中')
-          wx.cloud.callFunction({
-            name: 'reviewApplication',
-            data: { applicationId: id, petId: petid, status },
-            success: () => {
-              hideLoading()
-              showToast('操作成功')
-              this.loadData()
-            },
-            fail: () => {
-              hideLoading()
-              showToast('操作失败')
-            }
-          })
-        }
-      }
-    })
+    applicationService.confirmReview(action).then(({ status }) => {
+      return applicationService.reviewApplication(id, petid, status)
+    }).then(() => {
+      this.loadData()
+    }).catch(() => {})
   },
 
   goApplications: function () {

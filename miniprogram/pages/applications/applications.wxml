@@ -1,9 +1,9 @@
 <view class="container">
   <scroll-view class="filter-tabs" scroll-x enable-flex>
     <view class="filter-tab {{currentFilter === 'all' ? 'active' : ''}}" bindtap="onFilter" data-filter="all">全部 ({{totalCount}})</view>
-    <view class="filter-tab {{currentFilter === '待审核' ? 'active' : ''}}" bindtap="onFilter" data-filter="待审核">待审核 ({{pendingCount}})</view>
-    <view class="filter-tab {{currentFilter === '已通过' ? 'active' : ''}}" bindtap="onFilter" data-filter="已通过">已通过</view>
-    <view class="filter-tab {{currentFilter === '已拒绝' ? 'active' : ''}}" bindtap="onFilter" data-filter="已拒绝">已拒绝</view>
+    <view class="filter-tab {{currentFilter === appStatus.PENDING ? 'active' : ''}}" bindtap="onFilter" data-filter="{{appStatus.PENDING}}">待审核 ({{pendingCount}})</view>
+    <view class="filter-tab {{currentFilter === appStatus.APPROVED ? 'active' : ''}}" bindtap="onFilter" data-filter="{{appStatus.APPROVED}}">已通过</view>
+    <view class="filter-tab {{currentFilter === appStatus.REJECTED ? 'active' : ''}}" bindtap="onFilter" data-filter="{{appStatus.REJECTED}}">已拒绝</view>
   </scroll-view>
 
   <view class="app-list" wx:if="{{filteredApps.length > 0}}">
@@ -42,7 +42,7 @@
         </view>
       </view>
 
-      <view class="app-card-actions" wx:if="{{item.status === '待审核' && isAdmin}}">
+      <view class="app-card-actions" wx:if="{{item.status === appStatus.PENDING && isAdmin}}">
         <button class="approve-btn" bindtap="reviewApp" data-id="{{item._id}}" data-petid="{{item.petId}}" data-action="approve">通过</button>
         <button class="reject-btn" bindtap="reviewApp" data-id="{{item._id}}" data-action="reject">拒绝</button>
       </view>

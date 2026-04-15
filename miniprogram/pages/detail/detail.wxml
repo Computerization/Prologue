@@ -40,10 +40,10 @@
   </view>
 
   <view class="bottom-bar">
-    <block wx:if="{{pet.status === '可领养'}}">
+    <block wx:if="{{pet.status === petStatus.AVAILABLE}}">
       <button class="primary-btn adopt-btn" bindtap="goAdopt">💕 我想领养 {{pet.name}}</button>
     </block>
-    <block wx:elif="{{pet.status === '已预定'}}">
+    <block wx:elif="{{pet.status === petStatus.RESERVED}}">
       <button class="disabled-btn" disabled>已预定，暂不可领养</button>
     </block>
     <block wx:else>

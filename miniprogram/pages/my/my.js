@@ -1,6 +1,6 @@
 const app = getApp()
-const db = wx.cloud.database()
-const { formatTime } = require('../../utils/util')
+const applicationService = require('../../services/applicationService')
+const authService = require('../../services/authService')
 
 Page({
   data: {
@@ -11,15 +11,12 @@ Page({
   },
 
   onLoad: function () {
-    this.setData({
-      isAdmin: app.globalData.isAdmin
-    })
+    this.setData({ isAdmin: app.globalData.isAdmin })
   },
 
   onShow: function () {
-    const userInfo = app.globalData.userInfo
     this.setData({
-      userInfo: userInfo,
+      userInfo: app.globalData.userInfo,
       isAdmin: app.globalData.isAdmin
     })
     if (app.globalData.openid) {
@@ -29,23 +26,10 @@ Page({
 
   loadMyApplications: function () {
     this.setData({ loadingApps: true })
-    wx.cloud.callFunction({
-      name: 'getMyApplications',
-      data: {},
-      success: res => {
-        const applications = (res.result.data || []).map(item => {
-          item.formattedTime = item.createdAt ? formatTime(new Date(item.createdAt)) : ''
-          return item
-        })
-        this.setData({
-          applications,
-          loadingApps: false
-        })
-      },
-      fail: err => {
-        console.error('加载申请记录失败', err)
-        this.setData({ loadingApps: false })
-      }
+    applicationService.loadMyApplications().then(applications => {
+      this.setData({ applications, loadingApps: false })
+    }).catch(() => {
+      this.setData({ loadingApps: false })
     })
   },
 
@@ -64,21 +48,16 @@ Page({
   },
 
   verifyAdmin: function (password) {
-    wx.cloud.callFunction({
-      name: 'verifyAdmin',
-      data: { password },
-      success: res => {
-        if (res.result.success) {
-          wx.showToast({ title: '验证成功', icon: 'success' })
-          app.globalData.isAdmin = true
-          this.setData({ isAdmin: true })
-        } else {
-          wx.showToast({ title: '密码错误', icon: 'error' })
-        }
-      },
-      fail: () => {
-        wx.showToast({ title: '验证失败', icon: 'error' })
+    authService.verifyAdmin(password).then(result => {
+      if (result.success) {
+        wx.showToast({ title: '验证成功', icon: 'success' })
+        app.globalData.isAdmin = true
+        this.setData({ isAdmin: true })
+      } else {
+        wx.showToast({ title: '密码错误', icon: 'error' })
       }
+    }).catch(() => {
+      wx.showToast({ title: '验证失败', icon: 'error' })
     })
   },
 

@@ -1,60 +1,59 @@
 const app = getApp()
-const db = wx.cloud.database()
-const { showLoading, hideLoading, showToast } = require('../../utils/util')
+const petService = require('../../services/petService')
+const { showToast } = require('../../utils/util')
+const { PetStatus, Species, Gender, MaxPhotos, NavigateBackDelay } = require('../../utils/constants')
 
 Page({
   data: {
     form: {
       name: '',
-      species: '猫',
+      species: Species.CAT,
       breed: '',
       age: '',
-      gender: '未知',
+      gender: Gender.UNKNOWN,
       description: '',
-      status: '可领养',
+      status: PetStatus.AVAILABLE,
       photos: []
     },
-    statusOptions: ['可领养', '已预定', '已领养'],
+    statusOptions: [PetStatus.AVAILABLE, PetStatus.RESERVED, PetStatus.ADOPTED],
     statusIndex: 0,
     isEdit: false,
     editId: '',
-    submitting: false
+    submitting: false,
+    species: Species,
+    gender: Gender,
+    maxPhotos: MaxPhotos
   },
 
   onLoad: function (options) {
+    if (!app.globalData.isAdmin) {
+      showToast('无管理员权限')
+      setTimeout(() => wx.navigateBack(), NavigateBackDelay)
+      return
+    }
+
     if (options.edit === 'true' && options.id) {
       this.setData({ isEdit: true, editId: options.id })
       wx.setNavigationBarTitle({ title: '编辑宠物' })
       this.loadPet(options.id)
     }
-
-    if (!app.globalData.isAdmin) {
-      showToast('无管理员权限')
-      setTimeout(() => wx.navigateBack(), 1500)
-    }
   },
 
   loadPet: function (id) {
-    showLoading('加载中')
-    db.collection('pets').doc(id).get().then(res => {
-      const pet = res.data
+    petService.loadPet(id).then(pet => {
       this.setData({
         form: {
           name: pet.name,
           species: pet.species,
           breed: pet.breed || '',
           age: pet.age || '',
-          gender: pet.gender || '未知',
+          gender: pet.gender || Gender.UNKNOWN,
           description: pet.description || '',
-          status: pet.status || '可领养',
+          status: pet.status || PetStatus.AVAILABLE,
           photos: pet.photos || []
         },
-        statusIndex: this.data.statusOptions.indexOf(pet.status || '可领养')
+        statusIndex: this.data.statusOptions.indexOf(pet.status || PetStatus.AVAILABLE)
       })
-      hideLoading()
-    }).catch(() => {
-      hideLoading()
-      showToast('加载失败')
     })
   },
 
@@ -73,43 +72,20 @@ Page({
 
   onStatusChange: function (e) {
     const index = e.detail.value
-    this.setData({
-      statusIndex: index,
-      'form.status': this.data.statusOptions[index]
-    })
+    this.setData({ statusIndex: index, 'form.status': this.data.statusOptions[index] })
   },
 
   chooseImage: function () {
-    const count = 9 - this.data.form.photos.length
+    const remaining = MaxPhotos - this.data.form.photos.length
     wx.chooseImage({
-      count,
+      count: remaining,
       sizeType: ['compressed'],
       sourceType: ['album', 'camera'],
       success: res => {
-        this.uploadImages(res.tempFilePaths)
+        petService.uploadPhotos(res.tempFilePaths).then(newPhotos => {
+          this.setData({ 'form.photos': this.data.form.photos.concat(newPhotos) })
+        })
       }
-    })
-  },
-
-  uploadImages: function (filePaths) {
-    showLoading('上传中')
-    const uploadTasks = filePaths.map(filePath => {
-      const cloudPath = 'pets/' + Date.now() + '_' + Math.random().toString(36).substr(2, 8) + filePath.match(/\.\w+$/)[0]
-      return wx.cloud.uploadFile({
-        cloudPath,
-        filePath
-      })
-    })
-
-    Promise.all(uploadTasks).then(results => {
-      const newPhotos = results.map(r => r.fileID)
-      this.setData({
-        'form.photos': this.data.form.photos.concat(newPhotos)
-      })
-      hideLoading()
-    }).catch(() => {
-      hideLoading()
-      showToast('上传失败')
     })
   },
 
@@ -133,9 +109,7 @@ Page({
     }
 
     this.setData({ submitting: true })
-    showLoading(isEdit ? '保存中' : '添加中')
 
-    const fnName = isEdit ? 'updatePet' : 'addPet'
     const data = {
       name: form.name.trim(),
       species: form.species,
@@ -146,26 +120,14 @@ Page({
       status: form.status,
       photos: form.photos
     }
-
     if (isEdit) {
       data.id = editId
     }
 
-    wx.cloud.callFunction({
-      name: fnName,
-      data,
-      success: () => {
-        hideLoading()
-        this.setData({ submitting: false })
-        showToast(isEdit ? '修改成功' : '添加成功')
-        setTimeout(() => wx.navigateBack(), 1500)
-      },
-      fail: err => {
-        hideLoading()
-        this.setData({ submitting: false })
-        showToast('操作失败')
-        console.error(err)
-      }
+    petService.savePet(data, isEdit).then(() => {
+      this.setData({ submitting: false })
+    }).catch(() => {
+      this.setData({ submitting: false })
     })
   }
 })

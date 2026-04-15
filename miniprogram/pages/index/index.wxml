@@ -9,10 +9,10 @@
 
   <scroll-view class="filter-tabs" scroll-x enable-flex>
     <view class="filter-tab {{currentFilter === 'all' ? 'active' : ''}}" bindtap="onFilter" data-filter="all">全部</view>
-    <view class="filter-tab {{currentFilter === '猫' ? 'active' : ''}}" bindtap="onFilter" data-filter="猫">🐱 猫咪</view>
-    <view class="filter-tab {{currentFilter === '狗' ? 'active' : ''}}" bindtap="onFilter" data-filter="狗">🐶 狗狗</view>
-    <view class="filter-tab {{currentFilter === '其他' ? 'active' : ''}}" bindtap="onFilter" data-filter="其他">🐾 其他</view>
-    <view class="filter-tab {{currentFilter === '可领养' ? 'active' : ''}}" bindtap="onFilter" data-filter="可领养">💚 可领养</view>
+    <view class="filter-tab {{currentFilter === species.CAT ? 'active' : ''}}" bindtap="onFilter" data-filter="{{species.CAT}}">🐱 猫咪</view>
+    <view class="filter-tab {{currentFilter === species.DOG ? 'active' : ''}}" bindtap="onFilter" data-filter="{{species.DOG}}">🐶 狗狗</view>
+    <view class="filter-tab {{currentFilter === species.OTHER ? 'active' : ''}}" bindtap="onFilter" data-filter="{{species.OTHER}}">🐾 其他</view>
+    <view class="filter-tab {{currentFilter === petStatus.AVAILABLE ? 'active' : ''}}" bindtap="onFilter" data-filter="{{petStatus.AVAILABLE}}">💚 可领养</view>
   </scroll-view>
 
   <view class="pet-list" wx:if="{{filteredPets.length > 0}}">

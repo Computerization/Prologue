@@ -7,30 +7,17 @@ App({
     wx.cloud.init({
       traceUser: true
     })
-    this.globalData = {
-      userInfo: null,
-      openid: null,
-      isAdmin: false,
-      adminPassword: 'apc2024'
-    }
+    this.globalData = { userInfo: null, openid: null, isAdmin: false }
     this.login()
   },
 
   login: function () {
-    const db = wx.cloud.database()
     wx.cloud.callFunction({
       name: 'login',
       data: {},
       success: res => {
         this.globalData.openid = res.result.openid
-        db.collection('users').where({
-          _openid: res.result.openid
-        }).get().then(userRes => {
-          if (userRes.data.length > 0) {
-            this.globalData.userInfo = userRes.data[0]
-            this.globalData.isAdmin = userRes.data[0].isAdmin || false
-          }
-        })
+        this.loadUserInfo(res.result.openid)
       },
       fail: err => {
         console.error('登录失败', err)
@@ -38,14 +25,21 @@ App({
     })
   },
 
-  checkAdmin: function () {
-    return this.globalData.isAdmin
+  loadUserInfo: function (openid) {
+    const db = wx.cloud.database()
+    db.collection('users').where({ _openid: openid }).get().then(userRes => {
+      if (userRes.data.length > 0) {
+        this.globalData.userInfo = userRes.data[0]
+        this.globalData.isAdmin = userRes.data[0].isAdmin || false
+      }
+    }).catch(err => {
+      console.error('加载用户信息失败', err)
+    })
   },
 
   globalData: {
     userInfo: null,
     openid: null,
-    isAdmin: false,
-    adminPassword: 'apc2024'
+    isAdmin: false
   }
 })

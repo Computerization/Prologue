@@ -8,9 +8,9 @@
     <view class="form-item">
       <text class="form-label">物种 <text class="required">*</text></text>
       <view class="species-picker">
-        <view class="species-option {{form.species === '猫' ? 'active' : ''}}" bindtap="pickSpecies" data-value="猫">🐱 猫咪</view>
-        <view class="species-option {{form.species === '狗' ? 'active' : ''}}" bindtap="pickSpecies" data-value="狗">🐶 狗狗</view>
-        <view class="species-option {{form.species === '其他' ? 'active' : ''}}" bindtap="pickSpecies" data-value="其他">🐾 其他</view>
+        <view class="species-option {{form.species === species.CAT ? 'active' : ''}}" bindtap="pickSpecies" data-value="{{species.CAT}}">🐱 猫咪</view>
+        <view class="species-option {{form.species === species.DOG ? 'active' : ''}}" bindtap="pickSpecies" data-value="{{species.DOG}}">🐶 狗狗</view>
+        <view class="species-option {{form.species === species.OTHER ? 'active' : ''}}" bindtap="pickSpecies" data-value="{{species.OTHER}}">🐾 其他</view>
       </view>
     </view>
 
@@ -27,9 +27,9 @@
     <view class="form-item">
       <text class="form-label">性别</text>
       <view class="gender-picker">
-        <view class="gender-option {{form.gender === '公' ? 'active' : ''}}" bindtap="pickGender" data-value="公">♂️ 公</view>
-        <view class="gender-option {{form.gender === '母' ? 'active' : ''}}" bindtap="pickGender" data-value="母">♀️ 母</view>
-        <view class="gender-option {{form.gender === '未知' ? 'active' : ''}}" bindtap="pickGender" data-value="未知">❓ 未知</view>
+        <view class="gender-option {{form.gender === gender.MALE ? 'active' : ''}}" bindtap="pickGender" data-value="{{gender.MALE}}">♂️ 公</view>
+        <view class="gender-option {{form.gender === gender.FEMALE ? 'active' : ''}}" bindtap="pickGender" data-value="{{gender.FEMALE}}">♀️ 母</view>
+        <view class="gender-option {{form.gender === gender.UNKNOWN ? 'active' : ''}}" bindtap="pickGender" data-value="{{gender.UNKNOWN}}">❓ 未知</view>
       </view>
     </view>
 
@@ -52,7 +52,7 @@
           <image class="photo-preview" src="{{item}}" mode="aspectFill"></image>
           <view class="photo-delete" bindtap="deletePhoto" data-index="{{index}}">✕</view>
         </view>
-        <view class="photo-add" bindtap="chooseImage" wx:if="{{form.photos.length < 9}}">
+        <view class="photo-add" bindtap="chooseImage" wx:if="{{form.photos.length < maxPhotos}}">
           <text class="photo-add-icon">+</text>
           <text class="photo-add-text">添加照片</text>
         </view>

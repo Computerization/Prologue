@@ -1,5 +1,6 @@
-const app = getApp()
-const { showLoading, hideLoading, showToast } = require('../../utils/util')
+const applicationService = require('../../services/applicationService')
+const { showToast } = require('../../utils/util')
+const { PhoneLength } = require('../../utils/constants')
 
 Page({
   data: {
@@ -27,9 +28,7 @@ Page({
 
   onInput: function (e) {
     const field = e.currentTarget.dataset.field
-    this.setData({
-      ['form.' + field]: e.detail.value
-    })
+    this.setData({ ['form.' + field]: e.detail.value })
   },
 
   submit: function () {
@@ -39,7 +38,7 @@ Page({
       showToast('请输入姓名')
       return
     }
-    if (!form.phone.trim() || form.phone.length !== 11) {
+    if (!form.phone.trim() || form.phone.length !== PhoneLength) {
       showToast('请输入正确的手机号')
       return
     }
@@ -53,37 +52,19 @@ Page({
     }
 
     this.setData({ submitting: true })
-    showLoading('提交中')
 
-    wx.cloud.callFunction({
-      name: 'submitApplication',
-      data: {
-        petId,
-        petName,
-        applicantName: form.name.trim(),
-        phone: form.phone.trim(),
-        address: form.address.trim(),
-        experience: form.experience.trim(),
-        reason: form.reason.trim()
-      },
-      success: () => {
-        hideLoading()
-        this.setData({ submitting: false })
-        wx.showModal({
-          title: '🎉 提交成功',
-          content: '您的领养申请已提交，我们会尽快审核，请耐心等待。',
-          showCancel: false,
-          success: () => {
-            wx.navigateBack()
-          }
-        })
-      },
-      fail: err => {
-        hideLoading()
-        this.setData({ submitting: false })
-        showToast('提交失败，请重试')
-        console.error(err)
-      }
+    applicationService.submitApplication({
+      petId,
+      petName,
+      applicantName: form.name.trim(),
+      phone: form.phone.trim(),
+      address: form.address.trim(),
+      experience: form.experience.trim(),
+      reason: form.reason.trim()
+    }).then(() => {
+      this.setData({ submitting: false })
+    }).catch(() => {
+      this.setData({ submitting: false })
     })
   }
 })

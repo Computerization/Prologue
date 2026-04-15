@@ -1,3 +1,5 @@
+const { PetStatus, ApplicationStatus } = require('./constants')
+
 const formatTime = date => {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
@@ -19,24 +21,26 @@ const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 
+const defaultStatusConfig = { text: '', color: '#999', bgColor: '#f5f5f5' }
+
 const statusMap = {
-  '可领养': { text: '可领养', color: '#2ed573', bgColor: '#e8f8ee' },
-  '已预定': { text: '已预定', color: '#FF8C42', bgColor: '#FFF0E5' },
-  '已领养': { text: '已领养', color: '#999', bgColor: '#f5f5f5' }
+  [PetStatus.AVAILABLE]: { text: PetStatus.AVAILABLE, color: '#2ed573', bgColor: '#e8f8ee' },
+  [PetStatus.RESERVED]: { text: PetStatus.RESERVED, color: '#FF8C42', bgColor: '#FFF0E5' },
+  [PetStatus.ADOPTED]: { text: PetStatus.ADOPTED, color: '#999', bgColor: '#f5f5f5' }
 }
 
 const applicationStatusMap = {
-  '待审核': { text: '待审核', color: '#FF8C42', bgColor: '#FFF0E5' },
-  '已通过': { text: '已通过', color: '#2ed573', bgColor: '#e8f8ee' },
-  '已拒绝': { text: '已拒绝', color: '#ff4757', bgColor: '#ffe8ea' }
+  [ApplicationStatus.PENDING]: { text: ApplicationStatus.PENDING, color: '#FF8C42', bgColor: '#FFF0E5' },
+  [ApplicationStatus.APPROVED]: { text: ApplicationStatus.APPROVED, color: '#2ed573', bgColor: '#e8f8ee' },
+  [ApplicationStatus.REJECTED]: { text: ApplicationStatus.REJECTED, color: '#ff4757', bgColor: '#ffe8ea' }
 }
 
 function getStatusConfig(status) {
-  return statusMap[status] || { text: status, color: '#999', bgColor: '#f5f5f5' }
+  return statusMap[status] || Object.assign({}, defaultStatusConfig, { text: status })
 }
 
 function getApplicationStatusConfig(status) {
-  return applicationStatusMap[status] || { text: status, color: '#999', bgColor: '#f5f5f5' }
+  return applicationStatusMap[status] || Object.assign({}, defaultStatusConfig, { text: status })
 }
 
 function showToast(title, icon = 'none') {

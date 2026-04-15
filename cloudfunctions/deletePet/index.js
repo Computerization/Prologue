@@ -3,8 +3,7 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 const db = cloud.database()
 
 exports.main = async (event, context) => {
-  const wxContext = cloud.getWXContext()
-  const openid = wxContext.OPENID
+  const openid = cloud.getWXContext().OPENID
 
   try {
     const userRes = await db.collection('users').where({ _openid: openid }).get()
