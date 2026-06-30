@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prologue · 宠物领养平台</title>
+  <meta name="description" content="Prologue 宠物领养平台 —— 浏览待领养的宠物，在线提交领养申请。">
+  <link rel="stylesheet" href="./styles.css?v=20260629-1">
+</head>
+<body>
+  <header class="site-header" id="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#home">
+        <span class="brand-mark">P</span>
+        <span class="brand-text">Prologue</span>
+      </a>
+
+      <nav class="site-nav" id="site-nav" aria-label="主导航">
+        <a href="#pets" data-nav>待领养</a>
+        <a href="#process" data-nav>领养流程</a>
+        <a href="#applications" data-nav>我的申请</a>
+        <a href="#manage" data-nav data-manage-link hidden>管理后台</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="ghost-btn small" id="staff-entry-button">管理登录</button>
+        <a class="primary-btn small" href="#pets">我要领养</a>
+        <button class="nav-toggle" id="nav-toggle" aria-label="展开菜单" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <span class="pill-tag">领养代替购买</span>
+          <h1>在这里，<br>遇见你的小伙伴。</h1>
+          <p>浏览平台上正在等待领养的宠物，了解它们的性格与状态，在线提交申请，把合适的它带回家。</p>
+          <div class="hero-cta">
+            <a class="primary-btn" href="#pets">浏览待领养</a>
+            <a class="ghost-btn" href="#process">领养流程</a>
+          </div>
+          <div class="hero-stats" id="hero-stats"></div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="hero-photo hero-photo-a"></div>
+          <div class="hero-photo hero-photo-b"></div>
+          <div class="hero-badge">
+            <strong id="hero-available-count">0</strong>
+            <span>只正在等待领养</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PETS -->
+    <section class="section" id="pets">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">MEET THE PETS</span>
+            <h2>待领养的宠物</h2>
+            <p class="section-text">用搜索和筛选，找到和你最合拍的那一只。</p>
+          </div>
+        </div>
+
+        <div class="pets-toolbar">
+          <label class="search-field">
+            <svg viewBox="0 0 24 24" class="search-icon" aria-hidden="true"><path d="M21 21l-4.3-4.3M11 19a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <input id="search-input" type="search" placeholder="搜索名字、品种或描述">
+          </label>
+          <div class="filter-row" id="filter-row"></div>
+        </div>
+
+        <div class="pet-grid" id="pet-list"></div>
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="section section-tinted" id="process">
+      <div class="container">
+        <div class="section-head center">
+          <span class="eyebrow">HOW IT WORKS</span>
+          <h2>领养流程</h2>
+          <p class="section-text">从看中一只宠物到把它接回家，只需要四步。</p>
+        </div>
+        <ol class="process-grid">
+          <li class="process-card">
+            <span class="process-num">01</span>
+            <h3>挑选宠物</h3>
+            <p>浏览待领养的宠物，查看性格、品种和状态，找到合适的那一只。</p>
+          </li>
+          <li class="process-card">
+            <span class="process-num">02</span>
+            <h3>提交申请</h3>
+            <p>填写真实的联系方式和居住情况，说明你的养宠经验和领养意愿。</p>
+          </li>
+          <li class="process-card">
+            <span class="process-num">03</span>
+            <h3>沟通确认</h3>
+            <p>送养方会与你联系沟通，确认情况后约定见面方式。</p>
+          </li>
+          <li class="process-card">
+            <span class="process-num">04</span>
+            <h3>带它回家</h3>
+            <p>确认无误后，把它接回家，开启你们的新生活。</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- MY APPLICATIONS -->
+    <section class="section" id="applications">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">MY APPLICATIONS</span>
+            <h2>我的申请</h2>
+            <p class="section-text">输入提交时填写的手机号，查询领养申请进度。</p>
+          </div>
+          <label class="search-field compact">
+            <input id="phone-filter-input" type="search" inputmode="numeric" placeholder="输入手机号查询">
+          </label>
+        </div>
+        <div class="applications-grid" id="applications-grid"></div>
+      </div>
+    </section>
+
+    <!-- MANAGE (admin only) -->
+    <section class="section section-tinted manage-section" id="manage" hidden>
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">ADMIN CONSOLE</span>
+            <h2>管理后台</h2>
+            <p class="section-text">登记宠物信息、管理在养宠物、审核领养申请。</p>
+          </div>
+          <button class="ghost-btn small" id="logout-button">退出登录</button>
+        </div>
+
+        <div class="manage-tabs" id="manage-tabs">
+          <button class="manage-tab active" data-tab="overview">数据总览</button>
+          <button class="manage-tab" data-tab="add">登记宠物</button>
+          <button class="manage-tab" data-tab="pets">宠物管理</button>
+          <button class="manage-tab" data-tab="review">申请审核 <span class="tab-badge" id="review-badge" hidden>0</span></button>
+        </div>
+
+        <!-- tab: overview -->
+        <div class="manage-panel active" data-panel="overview">
+          <div class="overview-stats" id="overview-stats"></div>
+          <div class="overview-table-wrap">
+            <table class="overview-table" id="overview-table"></table>
+          </div>
+        </div>
+
+        <!-- tab: add pet -->
+        <div class="manage-panel" data-panel="add">
+          <form class="manage-form" id="pet-form">
+            <input type="hidden" name="id">
+            <div class="form-grid">
+              <label>
+                <span>名字 *</span>
+                <input name="name" required placeholder="例如：奶油">
+              </label>
+              <label>
+                <span>品类 *</span>
+                <select name="species" required>
+                  <option value="猫">猫</option>
+                  <option value="狗">狗</option>
+                  <option value="其他">其他</option>
+                </select>
+              </label>
+              <label>
+                <span>品种</span>
+                <input name="breed" placeholder="例如：英短混血">
+              </label>
+              <label>
+                <span>年龄</span>
+                <input name="age" placeholder="例如：1 岁 / 8 个月">
+              </label>
+              <label>
+                <span>性别</span>
+                <select name="gender">
+                  <option value="公">公</option>
+                  <option value="母">母</option>
+                  <option value="未知" selected>未知</option>
+                </select>
+              </label>
+              <label>
+                <span>状态</span>
+                <select name="status">
+                  <option value="可领养" selected>可领养</option>
+                  <option value="已预定">已预定</option>
+                  <option value="已领养">已领养</option>
+                </select>
+              </label>
+              <label class="full">
+                <span>照片链接</span>
+                <input name="photo" placeholder="图片 URL，可留空使用默认图">
+              </label>
+              <label class="full">
+                <span>描述</span>
+                <textarea name="description" rows="3" placeholder="性格、健康状况、照护建议等"></textarea>
+              </label>
+            </div>
+            <div class="manage-form-actions">
+              <button class="ghost-btn" type="button" id="pet-form-reset">清空</button>
+              <button class="primary-btn" type="submit" id="pet-form-submit">登记宠物</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- tab: pets management -->
+        <div class="manage-panel" data-panel="pets">
+          <div class="manage-pets" id="manage-pets"></div>
+        </div>
+
+        <!-- tab: review -->
+        <div class="manage-panel" data-panel="review">
+          <div class="manage-review" id="manage-review"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="brand-mark">P</span>
+        <span>Prologue · 宠物领养平台</span>
+      </div>
+      <nav class="footer-links" aria-label="页脚导航">
+        <a href="#pets">待领养</a>
+        <a href="#process">领养流程</a>
+        <a href="#applications">我的申请</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">© 2026 Prologue 宠物领养平台</div>
+    </div>
+  </footer>
+
+  <!-- PET DETAIL MODAL -->
+  <dialog class="modal" id="detail-modal">
+    <div class="modal-card detail-card" id="detail-card"></div>
+  </dialog>
+
+  <!-- APPLY MODAL -->
+  <dialog class="modal" id="apply-modal">
+    <form class="modal-card" method="dialog" id="apply-form">
+      <div class="modal-head">
+        <div>
+          <span class="eyebrow">ADOPTION FORM</span>
+          <h3 id="apply-title">领养申请</h3>
+        </div>
+        <button class="icon-close" value="cancel" type="submit" aria-label="关闭">×</button>
+      </div>
+      <p class="modal-sub">请认真填写以下信息，送养方会尽快与你联系。</p>
+      <div class="form-grid">
+        <label>
+          <span>姓名</span>
+          <input name="applicantName" required>
+        </label>
+        <label>
+          <span>手机号</span>
+          <input name="phone" inputmode="numeric" minlength="11" maxlength="11" placeholder="11 位手机号" required>
+        </label>
+        <label class="full">
+          <span>居住地址</span>
+          <input name="address" required>
+        </label>
+        <label class="full">
+          <span>养宠经验</span>
+          <textarea name="experience" rows="3" placeholder="可选，例如曾经养过几只猫/狗"></textarea>
+        </label>
+        <label class="full">
+          <span>领养理由</span>
+          <textarea name="reason" rows="3" required placeholder="说说你为什么想领养它"></textarea>
+        </label>
+      </div>
+      <div class="modal-actions">
+        <button class="ghost-btn" type="submit" value="cancel">取消</button>
+        <button class="primary-btn" type="submit" value="submit">提交申请</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- STAFF LOGIN MODAL -->
+  <dialog class="modal" id="staff-modal">
+    <form class="modal-card staff-card" method="dialog" id="staff-form">
+      <div class="modal-head">
+        <div>
+          <span class="eyebrow">ADMIN LOGIN</span>
+          <h3>管理登录</h3>
+        </div>
+        <button class="icon-close" value="cancel" type="submit" aria-label="关闭">×</button>
+      </div>
+      <p class="modal-sub">请输入管理员密码进入后台。</p>
+      <label class="full block-label">
+        <span>管理员密码</span>
+        <input name="password" type="password" placeholder="请输入密码" autocomplete="off">
+      </label>
+      <div class="modal-actions">
+        <button class="ghost-btn" type="submit" value="cancel">取消</button>
+        <button class="primary-btn" type="submit" value="submit">登录</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="./app.js?v=20260629-1"></script>
+</body>
+</html>
