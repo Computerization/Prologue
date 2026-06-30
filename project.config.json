@@ -23,7 +23,7 @@
     }
   },
   "appid": "wx0000000000000000",
-  "projectname": "pet-adoption",
+  "projectname": "prologue",
   "cloudfunctionTemplateRoot": "",
   "condition": {},
   "srcMiniprogramRoot": "miniprogram/",
@@ -33,5 +33,5 @@
     "ignore": [],
     "include": []
   },
-  "description": "APC宠物领养平台"
+  "description": "Prologue 宠物领养平台"
 }
